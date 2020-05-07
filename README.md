@@ -39,7 +39,7 @@ Encarts
 # Remarques
 
 - Les encarts se gèrent comme des pages ou des articles, mais ne peuvent pas être publiés.
-- Le plugin peut être utiisé pour ajouter du Javascript à vos pages. Il faut alors utiliser l'onglet "texte" proche de l'onglet "markdown" sur la page d'édition d'encarts.
+- Le plugin peut être utiisé pour ajouter du Javascript à vos pages. Il faut alors utiliser l'onglet "texte" proche de l'onglet "visuel" sur la page d'édition d'encarts.
 
 ```
 <script language="javascript">
