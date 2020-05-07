@@ -1,0 +1,20 @@
+body.wp-admin.post-type-encart input#publish,
+body.wp-admin.post-type-encart #misc-publishing-actions {
+  display: none !important;
+}
+
+
+body.wp-admin.post-type-encart input#save-post {
+  margin-bottom:15px;
+}
+
+body.wp-admin.post-type-encart #copy-shortcode {
+  font-family:Menlo,Monaco,Consolas,"Courier New",monospace;
+  display: inline-block;
+  background: #eee;
+  padding: 5px 10px;
+}
+
+body.wp-admin.post-type-encart .button-link.editinline {
+    display: none !important;
+}
