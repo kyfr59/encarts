@@ -34,7 +34,7 @@ wp_enqueue_script('encarts', plugins_url( '/js/scripts.js', __FILE__ ) );
 
 
 // Handle the encarts_ shortcode
-add_shortcode('encarts', 'shortcode_encarts');
+add_shortcode('encart', 'shortcode_encarts');
 function shortcode_encarts($args) {
 
     if (!$id = $args['id']) return;
