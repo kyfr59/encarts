@@ -210,3 +210,64 @@ function encart_add_encart_in_content( $content ) {
 
     return $haut.$content.$bas;
 }
+
+
+// Add the filter combox in admin posts list
+add_action('restrict_manage_posts','encarts_add_filter_combo');
+function encarts_add_filter_combo() {
+
+
+    if ( isset($_REQUEST[$request_attr]) ) {
+      $selected = $_REQUEST[$request_attr];
+    }
+
+    $args = ( array(
+        'posts_per_page' => -1,
+        'post_type'  => 'encart',
+        'post_status' => 'draft'
+    ));
+    $encarts = get_posts($args);
+
+    $selected[$_GET['encart_id']] = ' selected="selected" ';
+
+    echo '<select name="encart_id">';
+    echo '  <option value="">Contient l\'encart :</option>';
+    foreach($encarts as $encart) {
+      echo '  <option '.$selected[$encart->ID].' value="'.$encart->ID.'">'.$encart->post_title.'</option>';
+    }
+    echo '  <option '.$selected['no'].' value="no">- Ne contient pas d\'encart -</option>';
+    echo '</select>';
+}
+
+
+// Filter by encarts
+add_filter( 'posts_where' , 'encarts_posts_where' );
+function encarts_posts_where( $where ) {
+
+  if (!is_admin()) return $where;
+
+  if (!$encart_id = $_GET['encart_id']) return $where;
+
+  global $wpdb;
+
+  // Search posts without encarts
+  if ($encart_id == 'no') {
+
+    $results = $wpdb->get_col( $wpdb->prepare("SELECT DISTINCT(post_id) FROM `wp_encarts`"));
+
+    if (count($results)) {
+      $not_in = implode(',', $results);
+      return $where .= " AND wp_posts.post_content NOT LIKE '%[encart id=\"%' AND ID NOT IN($not_in)";
+    }
+    return $where .= " AND wp_posts.post_content NOT LIKE '%[encart id=\"%'";
+  }
+
+  // Search posts with a specific encart
+  $results = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM `wp_encarts` WHERE encart_id = %d", $encart_id ) );
+
+  if (count($results)) {
+    $in = implode(',', $results);
+    return $where .= " AND (post_content LIKE '%[encart id=\"".$encart_id."%' OR ID IN($in))";
+  }
+  return $where .= " AND wp_posts.post_content LIKE '%[encart id=\"".$encart_id."%'";
+}
