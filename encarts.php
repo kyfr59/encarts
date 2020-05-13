@@ -58,10 +58,10 @@ function encarts_create_shortcode_metabox() {
 // Display "encarts" metabox
 function encarts_display_shortcode_metabox() {
   $url = plugins_url( '/js/clipboard.min.js', __FILE__ );
-  $shortcode = '[encart id='.get_the_ID().']';
+  $shortcode = '[encart id="'.get_the_ID().'"]';
   echo "<script type='text/javascript' src='$url'></script>";
   echo '<p>Pour insérer cet encart dans vos pages utilisez le shortcode suivant :</p>';
-  echo '<div aria-label="Copier dans le presse papier" data-balloon-pos="down" id="copy-shortcode" data-clipboard-text="'.$shortcode.'">'.$shortcode.'</div>';
+  echo '<div aria-label="Copier dans le presse papier" data-balloon-pos="down" id="copy-shortcode" data-clipboard-text="'.htmlspecialchars($shortcode, ENT_QUOTES).'">'.$shortcode.'</div>';
 }
 
 
