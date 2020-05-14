@@ -41,6 +41,8 @@ function shortcode_encart($args) {
 
     if (!$post = get_post($id)) return;
 
+    if ($post->post_status == 'trash') return; // Disable shortcode if the encart is in trash
+
     $current_post = get_post();
     if ($current_post->post_type == 'encart') return; // Disable shortcode on "encart" post types
 
@@ -175,9 +177,27 @@ function encarts_delete_post() {
 
   if ($post->post_type == 'encart') {
 
+    global $wpdb;
+
     // Delete current encart from database
     $sql = "DELETE FROM `wp_encarts` WHERE `encart_id` = '".$post->ID."'";
     $wpdb->query( $wpdb->prepare($sql));
+
+    // Remove all encart's shortcodes from content for deleted encart
+    $sql = "SELECT * from ".$wpdb->posts." WHERE ". $wpdb->posts.".post_content LIKE '%[encart id=\"".$post->ID."%'";
+    $results = $wpdb->get_results($wpdb->prepare($sql), ARRAY_A);
+
+    foreach($results as $result) {
+      $content = $result['post_content'];
+      $content = preg_replace("~(?:\[encart id=\"/?)[^/\]]+/?\]~s", '', $content);
+
+      $the_post = array(
+          'ID'           => $result['ID'],
+          'post_content' => $content,
+      );
+
+      wp_update_post( $the_post );
+    }
   }
 }
 
@@ -192,6 +212,7 @@ function encart_add_encart_in_content( $content ) {
     $sql = "SELECT * FROM `wp_encarts` WHERE `post_id` = '".$post->ID."'";
     $results = $wpdb->get_results($wpdb->prepare($sql), ARRAY_A);
 
+
     $haut = $bas = '';
     foreach($results as $result) {
 
@@ -199,6 +220,7 @@ function encart_add_encart_in_content( $content ) {
       if (!$position = $result['position']) continue;
 
       $encart = get_post($encart_id);
+      if($encart->post_status == 'trash') continue; // Disable shortcode if the encart is in trash
 
       if ($position == 'haut') {
         $haut .= $encart->post_content;
