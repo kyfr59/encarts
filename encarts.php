@@ -30,6 +30,7 @@ wp_enqueue_style('balloon', 'https://cdnjs.cloudflare.com/ajax/libs/balloon-css/
 
 
 // Include JS
+wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js' );
 wp_enqueue_script('encarts', plugins_url( '/js/scripts.js', __FILE__ ) );
 
 
