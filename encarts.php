@@ -4,7 +4,7 @@
     Description: Permet l'insertion de morceaux de code HTML dans les publications
     Author: Franck Dupont
     Author URI: http://franck-dupont.me
-    Version: 1.0.0
+    Version: 1.1.0
 */
 
 // Encsure that CPT plugin is active
