@@ -47,6 +47,10 @@ function shortcode_encart($args) {
     $current_post = get_post();
     if ($current_post->post_type == 'encart') return; // Disable shortcode on "encart" post types
 
+    if (!empty($args['mois'])) {
+      $months = explode(',', $args['mois']);
+      if (!in_array(date("n"), $months)) return; // Abort if the current month isn't in the specified months range
+    }
     return $post->post_content;
 }
 
