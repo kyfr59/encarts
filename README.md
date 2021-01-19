@@ -15,6 +15,7 @@ Encarts
 - Vous pouvez ajouter et créer vos encarts via cette page.
 - La page de gestion des encarts vous affiche le shortcode à utiliser pour ajouter un encart dans vos pages (cliquez dessus pour le coller dans votre presse-papier).
 - Lorsque vous modifiez une page ou un article, une zone (en bas) vous permet d'afficher automatiquement un ou plusieurs encarts au début ou à la fin de votre article.
+- Vous pouvez spécifier les mois dans le paramètre "mois" du shortcode : `[encart id="123" mois="2,3,4"]` pour n'afficher l'encart que pour les mois de février, mars et avril.
 
 
 ### Recherche parmi les pages ou articles
